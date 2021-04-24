@@ -29,7 +29,17 @@ use GScholarProfileParser\Parser\StatisticsParser;
             $mydom->loadHTML($content);
             $links = $mydom->getElementById('gsc_prf_in')->textContent;
             
-            return $links;
+            $arr=array();
+            $arr[0]=$links;
+            $xpath = new DOMXpath($mydom);
+            $items=$xpath->query("//*[contains(@class, 'gsc_rsb_std')]");
+            foreach ($items as $key=>$image)
+            {
+                $arr[$key+1]=$image->textContent;
+            }
+
+            return $arr;
+
         /* //получаем объект класса DOMXpath
             $xpath = new DOMXpath($mydom);
         //делаем выборку с помощью xpath 
@@ -56,17 +66,18 @@ use GScholarProfileParser\Parser\StatisticsParser;
             {
                 $crawler = new ProfilePageCrawler($client, $array[$i]); // the second parameter is the scholar's profile id
                 
-                /** @var StatisticsParser $parser */
-                /** @var Statistics $statistics */
-                $parser = new StatisticsParser($crawler->getCrawler());
-                $statistics = new Statistics($parser->parse());
-
-                $statisticsG->fullname[$i]=getBingLink($array[$i]);
-                $statisticsG->citations[$i]=$statistics->getNbCitations();
-                $statisticsG->hIndex[$i]=$statistics->getHIndex();
-                $statisticsG->h10Index[$i]=$statistics->getI10Index();
+                $st=getBingLink($array[$i]);
+                /* $parser = new StatisticsParser($crawler->getCrawler());
+                $statistics = new Statistics($parser->parse()); */
+                for($j=0; $j<count($st); $j++)
+                {
+                $statisticsG->fullname[$i]=$st[0];
+                $statisticsG->citations[$i]=$st[1];
+                $statisticsG->hIndex[$i]=$st[3];
+                $statisticsG->H10Index[$i]=$st[5];
+                }
                 $stat=$statisticsG;
-            }
+            } 
             
             dd($stat);
          

@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
-    <title>nawriz</title>
+    <title>Google statistics</title>
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
@@ -34,33 +34,15 @@
             </tr>
         </thead>
         <tbody>
+            @foreach($statistics  as $id => $statistics)
             <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>{{$statistics->getNbCitations()}}</td>
-            <td>{{$statistics->getHIndex()}}</td>
-            <td>{{$statistics->Geti10Index()}}</td>
-            
-            
+            <th scope="row">{{ $id+1 }}</th>
+            <td>{{$statistics->fullname}}</td>
+            <td>{{$statistics->citations}}</td>
+            <td>{{$statistics->hIndex}}</td>
+            <td>{{$statistics->i10Index}}</td>
             </tr>
-            <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-            <td>Mark</td>
-            
-            
-            </tr>
-            <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            
-            </tr>
-
+            @endforeach
         </tbody>
         </table>
         </div>

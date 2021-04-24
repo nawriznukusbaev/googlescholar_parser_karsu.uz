@@ -8,37 +8,14 @@ use GScholarProfileParser\DomCrawler\ProfilePageCrawler;
 use GScholarProfileParser\Entity\Statistics;
 use GScholarProfileParser\Parser\StatisticsParser;
 use Illuminate\Http\Request;
+use App\Gsprofile_statistics;
 
 class IndexController extends Controller
 {
     public function index()
     {
 
-        $client = new Client();
-
-        /** @var ProfilePageCrawler $crawler */
-        $crawler = new ProfilePageCrawler($client, '2CjODR8AAAAJ'); // the second parameter is the scholar's profile id
-
-        /** @var StatisticsParser $parser */
-        $parser = new StatisticsParser($crawler->getCrawler());
-
-        /** @var Statistics $statistics */
-        $statistics = new Statistics($parser->parse());
-
-        $nbCitationsPerYear = $statistics->getNbCitationsPerYear();
-        $sinceYear = $statistics->getSinceYear();
-
-        $nbCitationsSinceYear = 0;
-        foreach ($nbCitationsPerYear as $year => $nbCitations) {
-            if ($year >= $sinceYear) {
-                $nbCitationsSinceYear += $nbCitations;
-            }
-        }
-
-        
-        
-
-
+        $statistics=Gsprofile_statistics::all();
         return view('index',compact('statistics'));
     } 
 }

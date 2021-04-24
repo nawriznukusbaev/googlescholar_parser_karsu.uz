@@ -23,3 +23,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/','IndexController@index')->name('index');
 Route::get('/user_code','CreateGsController@index')->name('user_code');
 Route::get('/store','CreateGsController@store')->name('store');
+Route::get('/update','CreateGsController@update');
